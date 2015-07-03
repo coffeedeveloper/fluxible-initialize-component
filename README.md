@@ -1,6 +1,6 @@
 # fluxible-initialize-component
 
-`fluxible-initialize-component` is simple pack to initialize fluxible react component. Auto to set `contextTypes` and `connectToStores` , and `provideContext`.
+`fluxible-initialize-component` is simple pack to initialize fluxible react component. Auto to set `contextTypes`, `connectToStores`, and `provideContext`.
 
 ### How to use ?
 
