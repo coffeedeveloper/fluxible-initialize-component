@@ -22,6 +22,7 @@
   "homepage": "https://github.com/coffeedeveloper/fluxible-initialize-component#readme",
   "dependencies": {
     "fluxible": "^0.4.12",
+    "fluxible-connecttoevents": "^1.0.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3"
   },

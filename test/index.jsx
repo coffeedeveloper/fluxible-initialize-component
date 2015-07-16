@@ -7,6 +7,10 @@ const action = (actionContext, payload) => {
   actionContext.dispatch('FOO_ACTION', payload);
 };
 
+const BooAction = (actionContext, payload) => {
+  actionContext.dispatch('BOO_ACTION', payload);
+};
+
 // Store
 const FooStore = createStore({
     storeName: 'FooStore',
@@ -27,27 +31,66 @@ const FooStore = createStore({
 });
 
 class BooStore extends BaseStore {
+  booHandle () {
+    console.log('in booHandle');
+    this.emit('rerender', 'come on!!!');
+  }
   getState () {
     return {};
   }
 }
 
-console.log(BooStore.name);
 BooStore.storeName = 'BooStore';
+BooStore.handlers = {
+  'BOO_ACTION': 'booHandle'
+};
 
-// Component
-class App extends React.Component {
+
+class Test extends React.Component {
+  handleRerender(info) {
+    console.log('in test handle');
+    console.log(info);
+  }
   render() {
-    console.log(this.props);
-    return (<span>{this.props.foo}</span>);
+    return (
+      <div>test</div>
+    );
   }
 }
 
-/*
-App = provideContext(connectToStores(App, [FooStore], (stores, props) => {
-  return stores.FooStore.getState();
-}));
-*/
+Test = InitializeComponent(Test, {
+  stores: [BooStore],
+  events: {
+    'BooStore': {
+      'rerender': 'handleRerender'
+    }
+  }
+});
+
+// Component
+class App extends React.Component {
+  onClick() {
+    console.log(this.context);
+    this.context.executeAction(BooAction);
+  }
+  render() {
+    return (
+      <div>
+        This is App
+        <button type="button" onClick={this.onClick.bind(this)}>Click Me</button>
+        <Test />
+      </div>
+    );
+  }
+}
+
+// App.contextTypes = {
+//   executeAction: React.PropTypes.func
+// };
+//
+// App = provideContext(connectToStores(App, [FooStore], (stores, props) => {
+//   return stores.FooStore.getState();
+// }));
 
 App = InitializeComponent(App, {
   provideContext: true,
@@ -63,5 +106,6 @@ const app = new Fluxible({
 // Bootstrap
 const context = app.createContext();
 context.executeAction(action, 'bar', (err) => {
-  console.log(React.renderToString(context.createElement()));
+  React.render(context.createElement(), document.getElementById('app'));
+  //console.log(React.renderToString(context.createElement()));
 });
