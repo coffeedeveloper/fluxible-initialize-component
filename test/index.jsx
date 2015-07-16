@@ -1,6 +1,7 @@
 import Fluxible from 'fluxible';
 import React from 'react';
-import { connectToStores, createStore, provideContext, BaseStore } from 'fluxible/addons';
+import { createStore, BaseStore } from 'fluxible/addons';
+import { connectToStores, provideContext, createElementWithContext } from 'fluxible-addons-react';
 import InitializeComponent from '../lib/main';
 
 const action = (actionContext, payload) => {
@@ -32,11 +33,10 @@ const FooStore = createStore({
 
 class BooStore extends BaseStore {
   booHandle () {
-    console.log('in booHandle');
     this.emit('rerender', 'come on!!!');
   }
   getState () {
-    return {};
+    return {x: 1, y: 2};
   }
 }
 
@@ -52,6 +52,7 @@ class Test extends React.Component {
     console.log(info);
   }
   render() {
+    console.dir(this.props.BooStore);
     return (
       <div>test</div>
     );
@@ -70,7 +71,6 @@ Test = InitializeComponent(Test, {
 // Component
 class App extends React.Component {
   onClick() {
-    console.log(this.context);
     this.context.executeAction(BooAction);
   }
   render() {
@@ -105,7 +105,5 @@ const app = new Fluxible({
 
 // Bootstrap
 const context = app.createContext();
-context.executeAction(action, 'bar', (err) => {
-  React.render(context.createElement(), document.getElementById('app'));
-  //console.log(React.renderToString(context.createElement()));
-});
+
+React.render(createElementWithContext(context), document.getElementById('app'));

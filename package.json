@@ -1,6 +1,6 @@
 {
   "name": "fluxible-initialize-component",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "fluxible initialize component helper",
   "main": "lib/main.js",
   "scripts": {
@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/coffeedeveloper/fluxible-initialize-component#readme",
   "dependencies": {
-    "fluxible": "^0.4.12",
+    "fluxible": "^0.5.1",
+    "fluxible-addons-react": "^0.1.6",
     "fluxible-connecttoevents": "^1.0.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3"
